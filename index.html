@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Джунгоу цхай — азиатская кухня с доставкой</title>
+  <!-- Google Fonts: Playfair Display для заголовков, Noto Sans для текста -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ----- СБРОС И БАЗОВЫЕ СТИЛИ ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans', system-ui, -apple-system, sans-serif;
+      background-color: #1a1a1a; /* угольный фон для контраста */
+      color: #FFF8F0; /* кремовый текст */
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ----- ЦВЕТОВЫЕ ПЕРЕМЕННЫЕ (азиатская палитра) ----- */
+    :root {
+      --dark-red: #8B0000;
+      --gold: #D4AF37;
+      --charcoal: #1a1a1a;
+      --cream: #FFF8F0;
+      --deep-green: #1F4A2C;
+      --light-gold: #E6C96E;
+      --shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      --shadow-soft: 0 6px 14px rgba(0, 0, 0, 0.3);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --transition: all 0.25s ease;
+    }
+
+    /* ----- ТИПОГРАФИКА ----- */
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--cream);
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 4px;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255, 248, 240, 0.75);
+      margin-bottom: 2.5rem;
+      max-width: 700px;
+    }
+
+    /* ----- КОНТЕЙНЕР ----- */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ----- КНОПКИ (min-height 44px для удобства) ----- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Noto Sans', sans-serif;
+      letter-spacing: 0.3px;
+      background-color: var(--gold);
+      color: #1a1a1a;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border: 1px solid transparent;
+    }
+
+    .btn:hover {
+      background-color: #c9a22e;
+      transform: scale(1.02);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: var(--gold);
+      color: #1a1a1a;
+    }
+
+    .btn-small {
+      min-height: 44px;
+      padding: 0 18px;
+      font-size: 0.9rem;
+    }
+
+    /* ----- ШАПКА (фиксированная) ----- */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(26, 26, 26, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 12px 0;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo span {
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    /* навигация */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--cream);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: var(--transition);
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    .nav a:hover {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* кнопка заказать в шапке */
+    .header .btn {
+      min-height: 44px;
+      padding: 0 22px;
+      font-size: 0.95rem;
+    }
+
+    /* ----- HERO СЕКЦИЯ ----- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a0a0a 50%, #1a1a1a 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 80px;
+      margin-top: 70px; /* отступ от фиксированной шапки */
+    }
+
+    /* декоративные градиентные пятна в азиатском стиле */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139, 0, 0, 0.5) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero-content {
+      flex: 1 1 500px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+      color: var(--cream);
+    }
+
+    .hero h1 .highlight {
+      color: var(--gold);
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: rgba(255, 248, 240, 0.85);
+      margin-bottom: 2rem;
+      max-width: 550px;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* правая часть hero с эмодзи-иллюстрацией */
+    .hero-visual {
+      flex: 1 1 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 280px;
+    }
+
+    .hero-emoji-plate {
+      font-size: clamp(7rem, 18vw, 12rem);
+      filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.6));
+      animation: float 5s ease-in-out infinite;
+      line-height: 1;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-16px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* ----- СЕКЦИИ (общие) ----- */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-dark {
+      background-color: #1a1a1a;
+    }
+
+    .section-deep {
+      background-color: #0f0f0f;
+    }
+
+    .section-red {
+      background: linear-gradient(145deg, #2c0a0a, #1a0505);
+    }
+
+    /* ----- О НАС (преимущества) ----- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .advantage-card {
+      background: rgba(255, 248, 240, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center;
+      transition: var(--transition);
+      backdrop-filter: blur(5px);
+    }
+
+    .advantage-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: var(--shadow);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .advantage-emoji {
+      font-size: 3.2rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .advantage-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+
+    .advantage-card p {
+      color: rgba(255, 248, 240, 0.8);
+      font-size: 0.95rem;
+    }
+
+    /* ----- МЕНЮ (карточки блюд) ----- */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-top: 30px;
+    }
+
+    /* Карточка блюда */
+    .dish-card {
+      background: rgba(26, 26, 26, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .dish-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--gold);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .dish-image {
+      min-height: 160px;
+      background: linear-gradient(145deg, #2a1a1a, #3a1a1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      border-bottom: 2px solid var(--gold);
+      transition: var(--transition);
+    }
+
+    .dish-card:hover .dish-image {
+      background: linear-gradient(145deg, #3a1a1a, #4a2020);
+    }
+
+    .dish-info {
+      padding: 20px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .dish-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+
+    .dish-desc {
+      font-size: 0.9rem;
+      color: rgba(255, 248, 240, 0.7);
+      margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .dish-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .dish-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    /* ----- ДОСТАВКА И ОПЛАТА ----- */
+    .delivery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .delivery-card {
+      background: rgba(15, 15, 15, 0.8);
+      border-left: 5px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 28px 24px;
+      transition: var(--transition);
+    }
+
+    .delivery-card:hover {
+      background: rgba(30, 30, 30, 0.9);
+      transform: translateX(6px);
+    }
+
+    .delivery-card h3 {
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .delivery-card p, .delivery-card li {
+      color: rgba(255, 248, 240, 0.85);
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .delivery-card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .delivery-card li::before {
+      content: '🍣 ';
+      margin-right: 6px;
+    }
+
+    /* ----- ОТЗЫВЫ ----- */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .review-card {
+      background: rgba(255, 248, 240, 0.07);
+      border-radius: var(--radius);
+      padding: 30px 24px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      transition: var(--transition);
+      backdrop-filter: blur(4px);
+    }
+
+    .review-card:hover {
+      border-color: var(--gold);
+      transform: scale(1.01);
+      background: rgba(255, 248, 240, 0.1);
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+
+    .review-text {
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(255, 248, 240, 0.9);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .review-author {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* ----- ФОРМА ОБРАТНОЙ СВЯЗИ ----- */
+    .contact-form {
+      max-width: 680px;
+      margin: 40px auto 0;
+      background: rgba(26, 26, 26, 0.8);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 50px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      background: rgba(255, 248, 240, 0.08);
+      color: var(--cream);
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 1rem;
+      transition: var(--transition);
+      outline: none;
+      min-height: 44px;
+    }
+
+    .form-group textarea {
+      border-radius: 24px;
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255, 248, 240, 0.12);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 248, 240, 0.4);
+    }
+
+    .contact-form .btn {
+      width: 100%;
+      font-size: 1.1rem;
+      min-height: 54px;
+    }
+
+    /* ----- ФУТЕР ----- */
+    .footer {
+      background: #0a0a0a;
+      padding: 60px 0 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 36px;
+      margin-bottom: 40px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .footer-col p, .footer-col a {
+      color: rgba(255, 248, 240, 0.75);
+      text-decoration: none;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      transition: var(--transition);
+    }
+
+    .footer-col a:hover {
+      color: var(--gold);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 16px;
+      font-size: 1.8rem;
+      margin-top: 8px;
+    }
+
+    .social-icons a {
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255, 248, 240, 0.1);
+      font-size: 0.85rem;
+      color: rgba(255, 248, 240, 0.5);
+    }
+
+    /* ----- АДАПТИВ (mobile-first уже в стилях, добавляем контрольные точки) ----- */
+    @media (min-width: 600px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .reviews-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 900px) {
+      .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .delivery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .about-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* Мобильная адаптация шапки (max-width 768px) */
+    @media (max-width: 768px) {
+      .header-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      .nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 6px;
+      }
+      .nav a {
+        font-size: 0.9rem;
+      }
+      .logo {
+        font-size: 1.4rem;
+      }
+      .header .btn {
+        min-height: 40px;
+        padding: 0 18px;
+        font-size: 0.9rem;
+      }
+      .hero {
+        padding: 100px 0 60px;
+        margin-top: 110px;
+      }
+      .hero-emoji-plate {
+        font-size: 7rem;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 0 20px;
+        font-size: 0.9rem;
+        min-height: 44px;
+      }
+      .contact-form {
+        padding: 24px 18px;
+      }
+      .dish-image {
+        min-height: 130px;
+        font-size: 4rem;
+      }
+      .delivery-card {
+        padding: 20px 18px;
+      }
+      .advantage-card {
+        padding: 22px 16px;
+      }
+      .review-card {
+        padding: 22px 18px;
+      }
+      .footer {
+        padding: 40px 0 20px;
+      }
+    }
+
+    /* ----- УЛУЧШЕНИЕ ДОСТУПНОСТИ ----- */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Плавное появление секций (простота) */
+    section {
+      opacity: 0.98;
+    }
+
+    /* Стили для скролла (опционально) */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #b38f2a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== ШАПКА (ФИКСИРОВАННАЯ) ===== -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="Джунгоу цхай — на главную">
+        🐉 Джунгоу <span>цхай</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#about">О нас</a>
+        <a href="#menu">Меню</a>
+        <a href="#delivery">Доставка</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <a href="#order" class="btn">Заказать</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO-СЕКЦИЯ ===== -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">🔥 Азиатская кухня</div>
+          <h1>Настоящая <span class="highlight">азиатская кухня</span> с доставкой</h1>
+          <p>Свежие суши, ароматный рамен и хрустящие дим-самы — готовим с душой и доставляем горячим.</p>
+          <div class="hero-cta">
+            <a href="#menu" class="btn">Заказать сейчас</a>
+            <a href="#about" class="btn btn-outline">Узнать больше</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-emoji-plate" aria-hidden="true">🍜</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== СЕКЦИЯ «О НАС» ===== -->
+    <section class="section-red" id="about">
+      <div class="container">
+        <h2>О нас</h2>
+        <p class="section-subtitle">Мы — команда поваров, влюблённых в азиатскую кухню. Готовим из свежих продуктов, соблюдая аутентичные рецепты и традиции.</p>
+        <div class="about-grid">
+          <div class="advantage-card">
+            <span class="advantage-emoji">🌿</span>
+            <h3>Свежие ингредиенты</h3>
+            <p>Каждое утро получаем свежую рыбу, овощи и зелень от проверенных поставщиков.</p>
+          </div>
+          <div class="advantage-card">
+            <span class="advantage-emoji">⚡</span>
+            <h3>Быстрая доставка</h3>
+            <p>Доставляем за 45 минут. Горячие блюда приезжают в термоупаковке.</p>
+          </div>
+          <div class="advantage-card">
+            <span class="advantage-emoji">🥢</span>
+            <h3>Аутентичные рецепты</h3>
+            <p>Наши шеф-повара учились в Токио и Бангкоке, чтобы радовать вас вкусом.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== МЕНЮ / КАТАЛОГ БЛЮД ===== -->
+    <section class="section-dark" id="menu">
+      <div class="container">
+        <h2>Наше меню</h2>
+        <p class="section-subtitle">Выбирайте любимые блюда — мы приготовим и привезём с любовью.</p>
+        <div class="menu-grid">
+          <!-- Карточка 1: Суши -->
+          <article class="dish-card">
+            <div class="dish-image" aria-hidden="true">🍣</div>
+            <div class="dish-info">
+              <h3 class="dish-name">Суши с лососем</h3>
+              <p class="dish-desc">Классические нигири с нежным лососем и рисом.</p>
+              <div class="dish-footer">
+                <span class="dish-price">320 ₽</span>
+                <button class="btn btn-small" type="button">В корзину</button>
+              </div>
+            </div>
+          </article>
+          <!-- Карточка 2: Роллы -->
+          <article class="dish-card">
+            <div class="dish-image" aria-hidden="true">🍙</div>
+            <div class="dish-info">
+              <h3 class="dish-name">Ролл «Филадельфия»</h3>
+              <p class="dish-desc">Лосось, сливочный сыр, огурец, рис и нори.</p>
+              <div class="dish-footer">
+                <span class="dish-price">540 ₽</span>
+                <button class="btn btn-small" type="button">В корзину</button>
+              </div>
+            </div>
+          </article>
+          <!-- Карточка 3: Рамен -->
+          <article class="dish-card">
+            <div class="dish-image" aria-hidden="true">🍜</div>
+            <div class="dish-info">
+              <h3 class="dish-name">Рамен с курицей</h3>
+              <p class="dish-desc">Насыщенный бульон, пшеничная лапша, курица и яйцо.</p>
+              <div class="dish-footer">
+                <span class="dish-price">460 ₽</span>
+                <button class="btn btn-small" type="button">В корзину</button>
+              </div>
+            </div>
+          </article>
+          <!-- Карточка 4: Том-ям -->
+          <article class="dish-card">
+            <div class="dish-image" aria-hidden="true">🍲</div>
+            <div class="dish-info">
+              <h3 class="dish-name">Том-ям</h3>
+              <p class="dish-desc">Острый тайский суп с креветками, кокосовым молоком и лемонграссом.</p>
+              <div class="dish-footer">
+                <span class="dish-price">520 ₽</span>
+                <button class="btn btn-small" type="button">В корзину</button>
+              </div>
+            </div>
+          </article>
+          <!-- Карточка 5: Вок -->
+          <article class="dish-card">
+            <div class="dish-image" aria-hidden="true">🥡</div>
+            <div class="dish-info">
+              <h3 class="dish-name">Вок с говядиной</h3>
+              <p class="dish-desc">Лапша вок, говядина, болгарский перец и соус терияки.</p>
+              <div class="dish-footer">
+                <span class="dish-price">490 ₽</span>
+                <button class="btn btn-small" type="button">В корзину</button>
+              </div>
+            </div>
+          </article>
+          <!-- Карточка 6: Дим-самы -->
+          <article class="dish-card">
+            <div class="dish-image" aria-hidden="true">🥟</div>
+            <div class="dish-info">
+              <h3 class="dish-name">Дим-самы с креветкой</h3>
+              <p class="dish-desc">Сочные паровые пельмени с креветкой и зелёным луком.</p>
+              <div class="dish-footer">
+                <span class="dish-price">390 ₽</span>
+                <button class="btn btn-small" type="button">В корзину</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== СЕКЦИЯ «ДОСТАВКА И ОПЛАТА» ===== -->
+    <section class="section-deep" id="delivery">
+      <div class="container">
+        <h2>Доставка и оплата</h2>
+        <p class="section-subtitle">Быстро, удобно и безопасно. Работаем каждый день.</p>
+        <div class="delivery-grid">
+          <div class="delivery-card">
+            <h3>🚚 Доставка</h3>
+            <ul>
+              <li>Бесплатно от 1000 ₽</li>
+              <li>В пределах города — 45–60 минут</li>
+              <li>Дальние районы — до 90 минут</li>
+            </ul>
+          </div>
+          <div class="delivery-card">
+            <h3>⏰ Время работы</h3>
+            <ul>
+              <li>Ежедневно с 10:00 до 23:00</li>
+              <li>Приём заказов до 22:30</li>
+              <li>Праздничные дни — по графику</li>
+            </ul>
+          </div>
+          <div class="delivery-card">
+            <h3>💳 Оплата</h3>
+            <ul>
+              <li>Наличными курьеру</li>
+              <li>Картой онлайн</li>
+              <li>СБП и Apple Pay</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== СЕКЦИЯ С ОТЗЫВАМИ ===== -->
+    <section class="section-red" id="reviews">
+      <div class="container">
+        <h2>Отзывы гостей</h2>
+        <p class="section-subtitle">Мы гордимся доверием наших клиентов.</p>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">«Заказывала роллы Филадельфия и том-ям — всё свежайшее, приехало горячим. Очень довольна!»</p>
+            <p class="review-author">— Анна, Москва</p>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">«Рамен просто огонь! Бульон наваристый, лапша упругая. Доставили за 40 минут. Рекомендую
